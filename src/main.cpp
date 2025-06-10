@@ -30,7 +30,7 @@ int main() {
 #ifdef _WIN32
     std::wstring pyPath = pyHomeW + L";" + pyHomeW + L"/Lib;" + pyHomeW + L"/DLLs";
 #else
-    std::wstring pyPath = pyHomeW + L":" + pyHomeW + L"/Lib";
+    std::wstring pyPath = pyHomeW + L":" + pyHomeW + L"/Lib:" + pyHomeW + L"/Lib/site-packages:" + pyHomeW + L"/Lib/lib-dynload";
 #endif
 
     Py_SetProgramName(L"EconomicForecasting");
