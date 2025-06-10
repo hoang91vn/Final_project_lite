@@ -46,21 +46,7 @@ int main() {
         std::wcerr << L"Warning: python Lib directory not on path" << std::endl;
     }
 
-    std::string dataInput;
-    std::cout << "Enter path to directory containing ICSA.csv, UNRATE.csv and JTSJOL.csv [data]: ";
-    std::getline(std::cin, dataInput);
-    if(dataInput.empty()) dataInput = "data";
-    std::filesystem::path dataDir = dataInput;
-    if(!std::filesystem::exists(dataDir / "ICSA.csv") ||
-       !std::filesystem::exists(dataDir / "UNRATE.csv") ||
-       !std::filesystem::exists(dataDir / "JTSJOL.csv")) {
-        std::cerr << "Cannot locate required CSV files in " << dataDir << '\n';
-        return 1;
-    }
-
-    auto table = merge_data((dataDir / "ICSA.csv").string(),
-                           (dataDir / "UNRATE.csv").string(),
-                           (dataDir / "JTSJOL.csv").string(),
+    auto table = merge_data("data/ICSA.csv", "data/UNRATE.csv", "data/JTSJOL.csv",
                            "2020-01-01", "2025-06-01");
     std::cout << "Merged " << table.size() << " rows to data/weekly_data.csv\n";
 
