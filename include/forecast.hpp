@@ -1,19 +1,17 @@
-#ifndef DATA_CLEANER_HPP
-#define DATA_CLEANER_HPP
 
-#include <map>
-#include <string>
+#ifndef FORECAST_HPP
+#define FORECAST_HPP
 
-struct RowData {
-    double icsa = std::numeric_limits<double>::quiet_NaN();
-    double unrate = std::numeric_limits<double>::quiet_NaN();
-    double jtsjol = std::numeric_limits<double>::quiet_NaN();
-};
+#include <vector>
 
-std::map<std::string, RowData> merge_data(const std::string& icsaPath,
-                                          const std::string& unratePath,
-                                          const std::string& jtsjolPath,
-                                          const std::string& startDate,
-                                          const std::string& endDate);
+// Simple moving average forecast
+std::vector<double> forecast_sma(const std::vector<double>& series,
+                                 std::size_t window,
+                                 std::size_t steps);
+
+// Simple exponential smoothing forecast
+std::vector<double> forecast_exp(const std::vector<double>& series,
+                                 double alpha,
+                                 std::size_t steps);
 
 #endif
