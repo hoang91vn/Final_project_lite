@@ -4,8 +4,12 @@
 #include <algorithm>
 #include <iostream>
 #include <cmath>
+#include <Python.h>
 
 namespace plt = matplotlibcpp;
+
+static bool g_checked_matplotlib = false;
+static bool g_has_matplotlib = false;
 
 void plot_series(const std::string& title,
                  const std::vector<std::string>& dates,
@@ -14,6 +18,26 @@ void plot_series(const std::string& title,
                  const std::vector<std::string>& forecastDates,
                  const std::vector<double>& forecastVals,
                  const std::string& outputPng) {
+    if (!g_checked_matplotlib) {
+        g_checked_matplotlib = true;
+        if (!Py_IsInitialized()) {
+            Py_Initialize();
+        }
+        PyObject* module = PyImport_ImportModule("matplotlib");
+        if (!module) {
+            PyErr_Clear();
+            std::cerr << "Warning: matplotlib not found. Skipping PNG output." << std::endl;
+            g_has_matplotlib = false;
+        } else {
+            g_has_matplotlib = true;
+            Py_DECREF(module);
+        }
+    }
+
+    if (!g_has_matplotlib) {
+        return;
+    }
+
     std::filesystem::create_directories("output");
 
     plt::figure_size(1200, 780);
