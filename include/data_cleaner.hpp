@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <limits>
 
 struct RowData {
     double icsa = std::numeric_limits<double>::quiet_NaN();
