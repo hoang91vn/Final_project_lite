@@ -18,3 +18,11 @@ From the `build/` directory run:
 ```
 
 The program writes forecast data to `output/forecast.csv` and generates PNG plots in the `output/` folder.
+
+## Bundled Python Runtime
+
+The application embeds the Python interpreter to produce plots via
+Matplotlib. To run on a system without Python installed, place a
+minimal Python distribution in a `python/` folder next to the
+executable. `src/main.cpp` sets `PYTHONHOME` to this directory before
+initializing the interpreter.

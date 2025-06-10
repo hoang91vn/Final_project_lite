@@ -9,8 +9,12 @@
 #include <iomanip>
 #include <chrono>
 #include <vector>
+#include <Python.h>
 
 int main() {
+    Py_SetProgramName(L"EconomicForecasting");
+    Py_SetPythonHome(L"./python");
+
     auto table = merge_data("data/ICSA.csv", "data/UNRATE.csv", "data/JTSJOL.csv",
                            "2020-01-01", "2025-06-01");
     std::cout << "Merged " << table.size() << " rows to data/weekly_data.csv\n";
