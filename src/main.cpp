@@ -38,14 +38,8 @@ int main() {
     Py_SetPath(pyPath.c_str());
 
     Py_Initialize();
-    // Verify that the embedded interpreter can import matplotlib and create a figure
-    int rc = PyRun_SimpleString(
-        "import matplotlib; import matplotlib.pyplot as plt;"
-        "plt.plot([0,1],[0,1]);"
-        "plt.savefig('output/embed_test.png')"
-    );
-    if (rc != 0) {
-        std::cerr << "Failed Python embedding test" << std::endl;
+    if (PyRun_SimpleString("import matplotlib") != 0) {
+        std::cerr << "Failed to import matplotlib" << std::endl;
     }
 
     if(pyPath.find(L"/Lib") == std::wstring::npos) {

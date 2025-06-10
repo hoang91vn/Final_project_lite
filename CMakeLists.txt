@@ -4,18 +4,12 @@ project(EconomicForecasting LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Location of the static Python distribution
-set(PYTHON_ROOT "C:/Python39" CACHE PATH "Python 3.9 root containing static build")
-
-# Find the static python39.lib
-find_library(PYTHON39_LIB
-    NAMES python39
-    PATHS "${PYTHON_ROOT}/static"
-    NO_DEFAULT_PATH
-    REQUIRED)
+# Python / NumPy (for matplotlib-cpp)
+find_package(Python3 COMPONENTS Interpreter Development NumPy REQUIRED)
 
 # Include directories
-include_directories(include "${PYTHON_ROOT}/include")
+include_directories(include)
+include_directories(${Python3_INCLUDE_DIRS} ${Python3_NumPy_INCLUDE_DIRS})
 
 # Source files
 add_executable(EconomicForecasting
@@ -27,17 +21,20 @@ add_executable(EconomicForecasting
     src/utils.cpp
 )
 
-target_link_libraries(EconomicForecasting PRIVATE ${PYTHON39_LIB})
+target_link_libraries(EconomicForecasting PRIVATE ${Python3_LIBRARIES})
 
 # Bundle minimal Python runtime after build
 set(PY_BUNDLE_DIR "${CMAKE_CURRENT_BINARY_DIR}/python")
-set(PYTHON_STDLIB "${PYTHON_ROOT}/Lib")
-set(PY_SITE "${PYTHON_STDLIB}/site-packages")
+# Determine the site-packages directory at configure time
+execute_process(
+    COMMAND ${Python3_EXECUTABLE} -c "import sysconfig,sys;sys.stdout.write(sysconfig.get_path('purelib'))"
+    OUTPUT_VARIABLE PY_SITE
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 add_custom_command(TARGET EconomicForecasting POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory "${PY_BUNDLE_DIR}"
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${PYTHON_STDLIB}"
+            "${Python3_STDLIB}"
             "${PY_BUNDLE_DIR}/Lib"
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${PY_SITE}"
