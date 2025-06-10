@@ -51,3 +51,12 @@ Matplotlib. To run on a system without Python installed, place a
 minimal Python distribution in a `python/` folder next to the
 executable. `src/main.cpp` sets `PYTHONHOME` to this directory before
 initializing the interpreter.
+
+Minimal bootstrap code:
+
+```cpp
+Py_SetPythonHome(L"python");
+Py_Initialize();
+PyRun_SimpleString("import matplotlib.pyplot, numpy");
+Py_Finalize();
+```
