@@ -3,9 +3,9 @@
 This project demonstrates a small workflow for processing weekly economic data and producing short-term forecasts.
 
 ## Prerequisites
-Install Python 3 and the required packages before configuring:
+CMake requires Python 3.12 to be installed along with NumPy and Matplotlib:
 ```bash
-python -m pip install numpy matplotlib
+python3.12 -m pip install numpy matplotlib
 ```
 CMake copies the Python standard library and these packages into `build/python` during the build.
 
@@ -48,6 +48,6 @@ The program writes forecast data to `output/forecast.csv` and generates PNG plot
 
 The application embeds the Python interpreter to produce plots via
 Matplotlib. To run on a system without Python installed, place a
-minimal Python distribution in a `python/` folder next to the
+minimal Python **3.12** distribution in a `python/` folder next to the
 executable. `src/main.cpp` sets `PYTHONHOME` to this directory before
 initializing the interpreter.

@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Python / NumPy (for matplotlib-cpp)
-find_package(Python3 COMPONENTS Interpreter Development NumPy REQUIRED)
+find_package(Python3 3.12 EXACT COMPONENTS Interpreter Development NumPy REQUIRED)
 
 # Include directories
 include_directories(include)
