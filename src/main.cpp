@@ -13,7 +13,6 @@
 #include <filesystem>
 
 int main() {
-    Py_SetProgramName(L"EconomicForecasting");
     Py_Initialize();
 
     bool has_numpy = (PyRun_SimpleString("import numpy") == 0);
