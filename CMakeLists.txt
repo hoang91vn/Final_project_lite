@@ -5,11 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ------------------------------------------------------------------------------
-# Python interpreter
+# Python interpreter check
 # ------------------------------------------------------------------------------
-# First try to locate an existing Python 3 installation. We only search for the
-# interpreter and development files; NumPy will be installed into the bundled
-# interpreter later if required.
 find_package(Python3 COMPONENTS Interpreter Development QUIET)
 
 set(PY_BUNDLE_DIR "${CMAKE_CURRENT_BINARY_DIR}/python")
