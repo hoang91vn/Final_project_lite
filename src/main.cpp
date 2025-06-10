@@ -1,12 +1,12 @@
 #include <iostream>
-#include <chrono>
-#include "data_cleaner.hpp"
-#include "forecast.hpp"
-#include "plot.hpp"
 #include "utils.hpp"
 
 int main() {
-    std::cout << "Economic Forecasting – skeleton ready.\n";
-    // TODO: call merge_data, forecasting, output, plotting
+    auto data = utils::load_fred_csv("data/ICSA.csv");
+    int printed = 0;
+    for (const auto& [date, value] : data) {
+        std::cout << date << "," << value << '\n';
+        if (++printed >= 5) break;
+    }
     return 0;
 }
