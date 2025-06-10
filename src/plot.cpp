@@ -39,21 +39,26 @@ void plot_series(const std::string& title,
 
 void ascii_sparkline(const std::string& title,
                      const std::vector<double>& data) {
-    static const char* blocks = "▁▂▃▄▅▆▇█";
+    static const char* blocks[] = {"▁","▂","▃","▄","▅","▆","▇","█"};
+
     if (data.empty()) {
+        std::cout << "No data for " << title << std::endl;
         return;
     }
 
     double minVal = *std::min_element(data.begin(), data.end());
     double maxVal = *std::max_element(data.begin(), data.end());
-    double range = maxVal - minVal;
-    if (range == 0) range = 1.0;
 
-    std::cout << title << "\n";
+    std::cout << title << '\n';
+    std::string line;
     for (double v : data) {
-        int idx = static_cast<int>(std::round((v - minVal) / range * 7));
-        idx = std::clamp(idx, 0, 7);
-        std::cout << blocks[idx];
+        double norm = 0.0;
+        if (maxVal > minVal) {
+            norm = (v - minVal) / (maxVal - minVal);
+        }
+        int bin = static_cast<int>(std::floor(norm * 7.0 + 0.5));
+        bin = std::clamp(bin, 0, 7);
+        line += blocks[bin];
     }
-    std::cout << std::endl;
+    std::cout << line << std::endl;
 }

@@ -94,7 +94,10 @@ int main() {
                 smaPred,
                 "output/icsa.png");
 
-    ascii_sparkline("ICSA Weekly Claims Trend", icsaTrend);
+    ascii_sparkline("ICSA Raw Values", icsaVec);
+    ascii_sparkline("ICSA Trend (window=4)", icsaTrend);
+    ascii_sparkline("SMA Forecast (3 weeks)", smaPred);
+    ascii_sparkline("EXP Forecast (3 weeks)", expPred);
 
     return 0;
 }
