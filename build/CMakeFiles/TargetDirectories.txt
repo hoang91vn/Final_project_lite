@@ -1,4 +1,0 @@
-C:/Data analysis/Sem 2 - Basic C++ Programming/Final_project_lite/build/CMakeFiles/Economic_forecast_timeseries.dir
-C:/Data analysis/Sem 2 - Basic C++ Programming/Final_project_lite/build/CMakeFiles/PACKAGE.dir
-C:/Data analysis/Sem 2 - Basic C++ Programming/Final_project_lite/build/CMakeFiles/ALL_BUILD.dir
-C:/Data analysis/Sem 2 - Basic C++ Programming/Final_project_lite/build/CMakeFiles/ZERO_CHECK.dir
