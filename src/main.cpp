@@ -37,6 +37,11 @@ int main() {
     Py_SetPythonHome(pyHomeW.c_str());
     Py_SetPath(pyPath.c_str());
 
+    Py_Initialize();
+    if (PyRun_SimpleString("import matplotlib") != 0) {
+        std::cerr << "Failed to import matplotlib" << std::endl;
+    }
+
     if(pyPath.find(L"/Lib") == std::wstring::npos) {
         std::wcerr << L"Warning: python Lib directory not on path" << std::endl;
     }
@@ -143,5 +148,6 @@ int main() {
     ascii_sparkline("SMA Forecast (3 weeks)", smaPred);
     ascii_sparkline("EXP Forecast (3 weeks)", expPred);
 
+    Py_Finalize();
     return 0;
 }
