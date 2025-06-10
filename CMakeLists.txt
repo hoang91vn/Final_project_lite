@@ -92,6 +92,7 @@ add_custom_command(TARGET EconomicForecasting POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${PY_SITE}"
             "${PY_BUNDLE_DIR}/Lib/site-packages"
+    COMMAND ${Python3_EXECUTABLE} -m pip install --upgrade --target "${PY_BUNDLE_DIR}/Lib/site-packages" matplotlib numpy
     COMMENT "Copy Python standard library and site-packages")
 
 # Install executable and bundled Python runtime
