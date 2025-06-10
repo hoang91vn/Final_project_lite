@@ -16,10 +16,13 @@ int main() {
     std::cout << "Merged " << table.size() << " rows to data/weekly_data.csv\n";
 
     std::vector<double> icsaVec;
+    std::vector<std::string> dates;
     icsaVec.reserve(table.size());
+    dates.reserve(table.size());
     std::string lastDate;
     for (const auto& [date, row] : table) {
         icsaVec.push_back(row.icsa);
+        dates.push_back(date);
         lastDate = date;
     }
 
@@ -44,6 +47,8 @@ int main() {
         std::tm *nt = std::localtime(&t);
         forecastWeeks.push_back(to_string(*nt));
     }
+
+    std::vector<double> icsaTrend = moving_average(icsaVec, 4);
 
     auto start = std::chrono::high_resolution_clock::now();
     auto smaPred = forecast_sma(icsaVec, 4, 3);
@@ -80,6 +85,16 @@ int main() {
     } else {
         std::cout << "Failed to write forecast CSV\n";
     }
+
+    plot_series("ICSA Weekly Claims",
+                dates,
+                icsaVec,
+                icsaTrend,
+                forecastWeeks,
+                smaPred,
+                "output/icsa.png");
+
+    ascii_sparkline("ICSA Weekly Claims Trend", icsaTrend);
 
     return 0;
 }
