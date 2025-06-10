@@ -1,0 +1,7 @@
+# Ignore build artifacts
+build/
+output/
+
+# OS/editor files
+.DS_Store
+*.swp
