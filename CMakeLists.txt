@@ -17,6 +17,7 @@ add_executable(EconomicForecasting
     src/data_cleaner.cpp
     src/forecast.cpp
     src/plot.cpp
+    src/output_writer.cpp
     src/utils.cpp
 )
 
