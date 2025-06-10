@@ -9,8 +9,26 @@ This project demonstrates a small workflow for processing weekly economic data a
 3. Run **CMake: Configure** from the command palette and select a generator.
 4. Run **CMake: Build** to compile the `EconomicForecasting` target.
 
+## Building with command-line CMake
+
+If you prefer using the command line, configure and build the project with:
+
+```bash
+cmake -S . -B build
+cmake --build build --config Release
+```
+
+After the build completes, run the executable from the `build` directory:
+
+```bash
+cd build
+cp -r ../data .  # copy input CSV files
+./EconomicForecasting
+```
+
 ## Running
 
+The executable expects the `data/` folder to be in the current directory.
 From the `build/` directory run:
 
 ```bash
