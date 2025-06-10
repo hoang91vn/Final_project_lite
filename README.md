@@ -2,6 +2,13 @@
 
 This project demonstrates a small workflow for processing weekly economic data and producing short-term forecasts.
 
+## Prerequisites
+Install Python 3 and the required packages before configuring:
+```bash
+python -m pip install numpy matplotlib
+```
+CMake copies the Python standard library and these packages into `build/python` during the build.
+
 ## Building with VS Code
 
 1. Install the **CMake Tools** extension.
