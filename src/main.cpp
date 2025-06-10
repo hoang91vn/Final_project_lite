@@ -13,37 +13,29 @@
 #include <filesystem>
 
 int main() {
-    std::filesystem::path pyHome = "./python";
-    std::filesystem::path encPath = pyHome / "Lib" / "encodings";
-    if(!std::filesystem::exists(encPath)) {
-        std::cerr << "Missing Python encodings directory: " << encPath << '\n';
-        return 1;
-    }
-
-    std::filesystem::path numpyPath = pyHome / "Lib" / "site-packages" / "numpy";
-    if(!std::filesystem::exists(numpyPath)) {
-        std::cerr << "Missing NumPy package: " << numpyPath << '\n';
-        return 1;
-    }
-
-    std::wstring pyHomeW = L"./python";
-#ifdef _WIN32
-    std::wstring pyPath = pyHomeW + L";" + pyHomeW + L"/Lib;" + pyHomeW + L"/DLLs";
-#else
-    std::wstring pyPath = pyHomeW + L":" + pyHomeW + L"/Lib:" + pyHomeW + L"/Lib/site-packages:" + pyHomeW + L"/Lib/lib-dynload";
-#endif
-
     Py_SetProgramName(L"EconomicForecasting");
-    Py_SetPythonHome(pyHomeW.c_str());
-    Py_SetPath(pyPath.c_str());
-
     Py_Initialize();
-    if (PyRun_SimpleString("import matplotlib") != 0) {
-        std::cerr << "Failed to import matplotlib" << std::endl;
-    }
 
-    if(pyPath.find(L"/Lib") == std::wstring::npos) {
-        std::wcerr << L"Warning: python Lib directory not on path" << std::endl;
+    bool has_numpy = (PyRun_SimpleString("import numpy") == 0);
+    bool has_mpl = (PyRun_SimpleString("import matplotlib") == 0);
+    if(!has_numpy || !has_mpl) {
+        std::cout << "Required Python packages missing. Attempt to install them using pip (may require admin rights). Proceed? [y/N] ";
+        char resp;
+        std::cin >> resp;
+        if(resp == 'y' || resp == 'Y') {
+            int status = PyRun_SimpleString(
+                "import sys, subprocess; subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--user', 'numpy', 'matplotlib'])"
+            );
+            if(status != 0 || PyRun_SimpleString("import numpy, matplotlib") != 0) {
+                std::cerr << "Failed to install required Python packages" << std::endl;
+                Py_Finalize();
+                return 1;
+            }
+        } else {
+            std::cerr << "Cannot continue without required packages" << std::endl;
+            Py_Finalize();
+            return 1;
+        }
     }
 
     auto table = merge_data("data/ICSA.csv", "data/UNRATE.csv", "data/JTSJOL.csv",
