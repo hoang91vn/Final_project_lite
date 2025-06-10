@@ -4,18 +4,26 @@ project(EconomicForecasting LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# vcpkg toolchain integration
-if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
-endif()
+# ------------------------------------------------------------------------------
+# Python interpreter check
+# ------------------------------------------------------------------------------
+find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 
-find_package(Eigen3 CONFIG REQUIRED)
-find_package(Matplot++ CONFIG REQUIRED)
+# Include directories
+include_directories(include)
+include_directories(${Python3_INCLUDE_DIRS})
 
+# Source files
 add_executable(EconomicForecasting
     src/main.cpp
+    src/data_cleaner.cpp
+    src/forecast.cpp
+    src/plot.cpp
+    src/output_writer.cpp
+    src/utils.cpp
 )
 
-target_link_libraries(EconomicForecasting PRIVATE Eigen3::Eigen Matplot++::matplot)
+target_link_libraries(EconomicForecasting PRIVATE ${Python3_LIBRARIES})
 
 install(TARGETS EconomicForecasting DESTINATION .)
+
