@@ -10,9 +10,11 @@ namespace matplotlibcpp {
 namespace detail {
 inline void ensure_interpreter() {
     static bool initialized = false;
-    if (!initialized) {
+    if (!Py_IsInitialized()) {
         Py_Initialize();
-        PyRun_SimpleString("import matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt");
+    }
+    if (!initialized) {
+        PyRun_SimpleString("import matplotlib.pyplot as plt");
         initialized = true;
     }
 }

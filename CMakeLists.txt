@@ -40,3 +40,8 @@ add_custom_command(TARGET EconomicForecasting POST_BUILD
             "${PY_SITE}"
             "${PY_BUNDLE_DIR}/Lib/site-packages"
     COMMENT "Copy Python standard library and site-packages")
+
+# Install executable and bundled Python runtime
+install(TARGETS EconomicForecasting DESTINATION .)
+install(DIRECTORY "${PY_BUNDLE_DIR}/Lib" DESTINATION python)
+
